@@ -60,6 +60,8 @@
 #![cfg_attr(all(feature="simd_support", feature="nightly"), feature(stdsimd))]
 #![cfg_attr(feature = "stdweb", recursion_limit="128")]
 
+#![cfg_attr(target_os = "vxworks", feature(libc))]
+
 #[cfg(feature = "std")] extern crate core;
 #[cfg(all(feature = "alloc", not(feature="std")))] #[macro_use] extern crate alloc;
 
