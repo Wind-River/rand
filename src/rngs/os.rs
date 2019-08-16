@@ -923,6 +923,46 @@ mod imp {
     }
 }
 
+#[cfg(target_os = "vxworks")]
+mod imp {
+    extern crate libc;
+
+    use {Error, ErrorKind};
+    use super::OsRngImpl;
+
+    use std::io;
+    use self::libc::{c_int, c_uchar};
+
+    #[derive(Clone, Debug)]
+    pub struct OsRng;
+
+    extern "C" {
+        fn randBytes (randBuf: *mut c_uchar,
+                      numOfBytes: c_int) -> c_int;
+    }
+
+    impl OsRngImpl for OsRng {
+        fn new() -> Result<OsRng, Error> { Ok(OsRng) }
+
+        fn fill_chunk(&mut self, dest: &mut [u8]) -> Result<(), Error> {
+            let ret = unsafe {
+                randBytes(dest.as_mut_ptr() as *mut c_uchar, dest.len() as c_int)
+            };
+            if ret == -1 {
+                Err(Error::with_cause(
+                    ErrorKind::Unavailable,
+                    "couldn't generate random bytes",
+                    io::Error::last_os_error()))
+            } else {
+                Ok(())
+            }
+        }
+
+        fn method_str(&self) -> &'static str { "randBytes" }
+    }
+}
+
+
 
 #[cfg(target_os = "fuchsia")]
 mod imp {
