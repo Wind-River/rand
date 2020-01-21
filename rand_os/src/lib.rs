@@ -302,6 +302,7 @@ mod_use!(cfg(target_os = "dragonfly"), dragonfly_haiku_emscripten);
 mod_use!(cfg(target_os = "emscripten"), dragonfly_haiku_emscripten);
 mod_use!(cfg(target_os = "freebsd"), freebsd);
 mod_use!(cfg(target_os = "fuchsia"), fuchsia);
+mod_use!(cfg(target_os = "vxworks"), vxworks);
 mod_use!(cfg(target_os = "haiku"), dragonfly_haiku_emscripten);
 mod_use!(cfg(target_os = "ios"), macos);
 mod_use!(cfg(target_os = "linux"), linux_android);
@@ -368,6 +369,7 @@ mod imp {
     target_os = "emscripten",
     target_os = "freebsd",
     target_os = "fuchsia",
+    target_os = "vxworks",
     target_os = "haiku",
     target_os = "ios",
     target_os = "linux",
